@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            height: 100vh;
+        }
+    </style>
+</head>
+<body  id="body">
+    <h1>Chat</h1>
+    <div id = "chat">
+        <input type="text" id="msg" placeholder="Type a message...">
+        <button id="send">Send</button>
+    </div>
+    <div id="board"> ... aqui vão aperecer as mensagens ...</div>
+    
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+
+    const sendButton = document.getElementById('send');
+    const msgInput = document.getElementById('msg');
+    const board = document.getElementById('board');
+
+    sendButton.addEventListener('click', () => {
+        const message = msgInput.value;
+        socket.emit('mensagem', message);
+        msgInput.value = '';
+    });
+
+    socket.on('mensagemchat', (message) => {
+        const messageElement = document.createElement('p');
+        messageElement.textContent = message;
+        board.appendChild(messageElement);
+    });
+
+const body = document.getElementById('body');
+
+
+body.addEventListener('click', (evento) => {
+    window.alert('Clicou no body : ' +  evento.clientX + ' ' + evento.clientY);
+
+
+});
+
+
+</script>
+</html>
